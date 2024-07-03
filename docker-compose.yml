@@ -1,0 +1,24 @@
+version: '3'
+services:
+  app:
+    build: .
+    image:  wawa9000/instant-angelo
+    volumes:
+      #- ./data:/app/data
+      #- ./output:/app/output
+      - $HOME/.cache:/root/.cache
+      - ./:/app
+    command: bash
+    ipc: host
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      stack: 67108864
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
